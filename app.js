@@ -117,6 +117,10 @@ const displayMenuCategoryButtons = () => {
 
   // btn add filter action
   fiterBtn.forEach((btn) => {
+    // default add active css style to 'all' btn
+    if (btn.dataset.id === "all") {
+      btn.classList.add("active");
+    }
     btn.addEventListener("click", (e) => {
       const btnCategory = e.currentTarget.dataset.id;
       if (btnCategory === "all") {
@@ -125,6 +129,10 @@ const displayMenuCategoryButtons = () => {
       } else {
         sortAndUpdateMenu(btn.textContent);
       }
+      // clear all btns active css style
+      fiterBtn.forEach((btn) => btn.classList.remove("active"));
+      //  add btn style on click
+      btn.classList.add("active");
     });
   });
 };
