@@ -82,44 +82,59 @@ const fullMenuData = [
   },
 ];
 
-// select elements
-const sectionCenter = document.querySelector(".section-center");
-const fiterBtn = document.querySelectorAll(".filter-btn");
-
-let pageMenu;
-
-// load data on page load
+// load data (category btns and menu items) on page load
 window.addEventListener("DOMContentLoaded", () => {
-  pageMenu = fullMenuData.map((item) => {
-    return `<article class="menu-item">
-        <img src=${item.img} class="photo" alt=${item.title} />
-        <div class="item-info">
-          <header>
-            <h4>${item.title}</h4>
-            <h4 class="price">${item.price}</h4>
-          </header>
-          <p class="item-text">
-        ${item.desc}
-          </p>
-        </div>
-      </article>`;
-  });
-  sectionCenter.innerHTML = pageMenu.join("");
+  showSelectedMenuItems(fullMenuData);
+  displayMenuCategoryButtons();
 });
 
-// btn filter action
-fiterBtn.forEach((btn) => {
-  btn.addEventListener("click", () => {
-    if (btn.textContent === "all") {
-      showSelectedMenuItems(fullMenuData);
-    } else {
-      sortAndUpdateMenu(btn.textContent);
-    }
-  });
-});
+// select button container
+const menuCategoryBtnContainer = document.querySelector(".btn-container");
 
+// load buttons from data
+const displayMenuCategoryButtons = () => {
+  // collect categories from data
+  const menuCategories = fullMenuData.reduce(
+    (values, item) => {
+      if (!values.includes(item.category)) {
+        values.push(item.category);
+      }
+      return values;
+    },
+    ["all"]
+  );
+
+  // display categories
+  const menuCategoriesBtns = menuCategories.map((category) => {
+    return `
+    <button class="filter-btn" type="button" data-id="${category}">${category}</button>
+    `;
+  });
+  menuCategoryBtnContainer.innerHTML = menuCategoriesBtns.join("");
+
+  // select category buttons
+  const fiterBtn = document.querySelectorAll(".filter-btn");
+
+  // btn add filter action
+  fiterBtn.forEach((btn) => {
+    btn.addEventListener("click", (e) => {
+      const btnCategory = e.currentTarget.dataset.id;
+      if (btnCategory === "all") {
+        // if (btn.textContent === "all") {
+        showSelectedMenuItems(fullMenuData);
+      } else {
+        sortAndUpdateMenu(btn.textContent);
+      }
+    });
+  });
+};
+
+// select main container
+const sectionCenter = document.querySelector(".section-center");
+
+// show menu items
 const showSelectedMenuItems = (selectedMenu) => {
-  pageMenu = selectedMenu.map((item) => {
+  let pageMenu = selectedMenu.map((item) => {
     return `<article class="menu-item">
         <img src=${item.img} class="photo" alt=${item.title} />
         <div class="item-info">
@@ -136,9 +151,11 @@ const showSelectedMenuItems = (selectedMenu) => {
   sectionCenter.innerHTML = pageMenu.join("");
 };
 
+// filter menu items
 const sortAndUpdateMenu = (type) => {
   let filteredMenu = fullMenuData.filter((item) => {
     return item.category === type;
   });
+  // show/update menu from filtered array
   showSelectedMenuItems(filteredMenu);
 };
