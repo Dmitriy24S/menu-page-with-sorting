@@ -196,6 +196,8 @@ Menu
   display: flex;
   justify-content: center;
   margin-bottom: 4rem;
+  flex-wrap: wrap;
+  gap: 0.5rem;
 }
 .filter-btn {
   background: transparent;
@@ -238,7 +240,7 @@ Menu
   display: grid;
   gap: 1rem 2rem;
   max-width: 25rem;
-  min-width: 25rem;
+  min-width: 12rem;
 }
 .photo {
   object-fit: cover;
