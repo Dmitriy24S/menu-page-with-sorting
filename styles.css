@@ -211,11 +211,12 @@ Menu
   color: var(--clr-gold);
   cursor: pointer;
   border: 1px solid;
+  border: none;
+  transition: var(--transition-fast);
 }
 .filter-btn:hover {
   background: var(--clr-gold);
   color: var(--clr-white);
-  transition: var(--transition-fast);
 }
 .active {
   color: var(--clr-white);
